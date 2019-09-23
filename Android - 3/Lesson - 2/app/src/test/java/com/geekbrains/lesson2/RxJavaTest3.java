@@ -2,7 +2,6 @@ package com.geekbrains.lesson2;
 
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;

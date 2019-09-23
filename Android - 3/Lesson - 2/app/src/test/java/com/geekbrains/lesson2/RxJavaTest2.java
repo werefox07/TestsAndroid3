@@ -14,6 +14,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 import io.reactivex.observables.GroupedObservable;
@@ -318,5 +319,18 @@ public class RxJavaTest2 {
                         System.out.println("All emitted!");
                     }
                 });
+    }
+
+    // Оператор compose принимает реализацию ObservableTransformer для преобразования источника в observable
+    @Test
+    public void testCompose() {
+                Observable.just("language", "framework", "os", "library", "os")
+                        .compose(new ObservableTransformer<String, String>(){
+                            //возвращает новый observable который будет эмитить уникальные значения от источника
+                            @Override
+                            public ObservableSource<String> apply(Observable<String> upstream) {
+                                return upstream.distinct();
+                            }})
+                        .subscribe(s -> System.out.println("values after compose operator "+s));
     }
 }

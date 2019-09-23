@@ -42,6 +42,7 @@ public class RxJavaTest5 {
                 .doOnNext((s) -> System.out.println("onNext: " + s))
                 .doOnComplete(() -> System.out.println("onComplete"))
                 .doOnSubscribe((d) -> System.out.println("onSubscribe"))
+                .doFinally(() -> System.out.println("doFinally"))
                 .doOnEach(new Observer<String>() {
                     @Override
                     public void onSubscribe(Disposable d) {

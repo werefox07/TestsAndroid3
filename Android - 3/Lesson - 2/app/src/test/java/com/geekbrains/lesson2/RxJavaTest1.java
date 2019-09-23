@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Emitter;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -226,5 +227,26 @@ public class RxJavaTest1 {
                 });
 
         Thread.sleep(4000);
+    }
+
+    // Оператор generate использует функцию для генерации данных
+    @Test
+    public void testGenerate() {
+        Observable.generate(new Consumer<Emitter<String>>() {
+            private int count = 0;
+
+            @Override
+            public void accept(Emitter<String> emitter) {
+                if (count > 5) {
+                    emitter.onComplete();
+                }
+                count++;
+                emitter.onNext("generate " + count);
+            }
+        })
+                .subscribe(
+                        System.out::println,
+                        System.out::println,
+                        () -> System.out.println("All emitted!"));
     }
 }
