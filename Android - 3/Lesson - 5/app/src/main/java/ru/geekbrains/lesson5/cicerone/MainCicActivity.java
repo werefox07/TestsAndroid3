@@ -23,7 +23,8 @@ public class MainCicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cic_main);
         ButterKnife.bind(this);
 
-        App.INSTANCE.getRouter().navigateTo(new Screens.StartCicScreen(0));
+        if (savedInstanceState != null)
+            App.INSTANCE.getRouter().navigateTo(new Screens.StartCicScreen(0));
 
     }
 
