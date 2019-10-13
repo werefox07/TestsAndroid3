@@ -56,4 +56,29 @@ public class RepoPresenterTest {
         verify(view).hideLoading();
         verifyNoMoreInteractions(view);
     }
+
+    @Test
+    public void testEmptyList() {
+        List<RepsModel> list = new ArrayList<>();
+        when(client.getReps()).thenReturn(Single.just(list));
+        presenter.attachView(view);
+        presenter.setViewState(repsViewState);
+        verify(view).showLoading();
+        verify(view).showEmptyState();
+        verify(view).hideLoading();
+        verifyNoMoreInteractions(view);
+    }
+
+    @Test
+    public void testListWithError() {
+        Throwable t = new Exception("Error thrown!");
+        when(client.getReps()).thenReturn(Single.error(t));
+        presenter.attachView(view);
+        presenter.setViewState(repsViewState);
+        verify(view).showLoading();
+        verify(view).showError(t);
+        verify(view).hideLoading();
+        verifyNoMoreInteractions(view);
+    }
+
 }

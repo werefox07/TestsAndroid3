@@ -8,9 +8,13 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.geekbrains.ru.lesson8.data.models.RepsModel;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.notNullValue;
@@ -45,5 +49,34 @@ public class ExampleInstrumentedTest {
         assertThat(viewById, instanceOf(ProgressBar.class));
         activity.showLoading();
         assertEquals(viewById.getVisibility(), View.VISIBLE);
+    }
+
+    @Test
+    public void ensureContentIsShowing() {
+        MainActivity activity = rule.getActivity();
+        View content = activity.findViewById(R.id.contentView);
+        assertThat(content, notNullValue());
+        activity.showRepoList(new ArrayList<>());
+        assertEquals(content.getVisibility(), View.VISIBLE);
+    }
+
+    @Test
+    public void ensureEmptyStateIsShowing() {
+        MainActivity activity = rule.getActivity();
+        View empty = activity.findViewById(R.id.emptyView);
+        assertThat(empty, notNullValue());
+        activity.showRepoList(new ArrayList<>());
+        assertEquals(empty.getVisibility(), View.VISIBLE);
+    }
+
+    @Test
+    public void progressIsHidden() {
+        MainActivity activity = rule.getActivity();
+        View progress = activity.findViewById(R.id.loadingView);
+        assertThat(progress, notNullValue());
+        assertThat(progress, instanceOf(ProgressBar.class));
+        activity.hideLoading();
+        assertEquals(progress.getVisibility(), View.GONE);
+
     }
 }
